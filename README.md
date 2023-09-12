@@ -1,4 +1,4 @@
-[Application Link](https://trading-inventory.adaptable.app)
+[Application Link](https://albionstorage.adaptable.app/main/)
 
 # _Step-by-step_ pengerjaan tugas
 ## 1. Membuat sebuah proyek Django baru
