@@ -3,6 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 def show_main(request):
     context = {
+        'name' : 'Hanan Adipratama',
+        'class' : 'PBP B',
         'accountID': 'RigenMengaji',
         'balance' : '15000000',
         'item' : 'Cursed Staff',
@@ -12,7 +14,6 @@ def show_main(request):
         'amount' : '1',
         'place' : 'Lymhurst Bank',
         'price' : '2000'
-
 
     }
 
