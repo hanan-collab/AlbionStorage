@@ -98,20 +98,9 @@ Kita menggunakan virtual environment pada pengembangan aplikasi berbasis Django 
 
 Apakah bisa melakukan pengembangan aplikasi berbasis django tanpa virtual environment? **BISA,** namun dengan kekurangan memungkinkan terjadinya konflik dependensi, tidak terisolasi, kurang fleksibel, dan masalah manajemen versi python antar file yang berbeda.
 ## Apa itu MVC, MVT, MVVM
-**MVC (Model-View-Controller):**
-    Model: Bertanggung jawab untuk mengelola data dan logika bisnis.
-    View: Menangani tampilan data dan berinteraksi dengan pengguna.
-    Controller: Menangani permintaan dari pengguna, memproses input, dan mengarahkan perubahan ke Model atau View yang sesuai.
-    Perbedaan: MVC adalah arsitektur yang digunakan terutama dalam kerangka kerja web seperti Ruby on Rails dan Laravel. Model mengatur data, View menampilkan data, dan Controller mengatur logika bisnis dan interaksi pengguna.
-    
-**MVT (Model-View-Template):**
-    Model: Sama dengan konsep dalam MVC, mengelola data dan logika bisnis.
-    View: Menangani tampilan data dan berinteraksi dengan pengguna, tetapi dalam kerangka kerja Django, View juga berfungsi sebagai Controller dalam MVC.
-    Template: Menangani bagian tampilan, seperti _markup_ HTML, dan dapat digunakan untuk merender data dari View.
-    Perbedaan: MVT adalah varian dari MVC yang digunakan dalam kerangka kerja web Django. Peran View di Django mencakup fungsi dari Controller dalam MVC, sementara Template bertanggung jawab untuk tampilan.
-    
-**MVVM (Model-View-ViewModel):**
-    Model: Seperti pada MVC, mengelola data dan logika bisnis.
-    View: Bertanggung jawab untuk tampilan, seperti dalam MVC.
-    ViewModel: Menyediakan perantara antara Model dan View. Ini mengubah data Model ke format yang dapat ditampilkan oleh View dan menerima input dari View untuk memperbarui Model.
-    Perbedaan: MVVM adalah arsitektur yang sering digunakan dalam pengembangan aplikasi berbasis klien (seperti aplikasi desktop atau aplikasi mobile). ViewModel adalah perbedaan utama, yang memisahkan View dan Model dengan memasukkan lapisan perantara.
+1. **MVC (Model-View-Controller):**
+   MVC merupakan Model View yang menangani permintaan dari pengguna, memproses input, dan mengarahkan perubahan ke Model atau View yang sesuai. Yang membedakan MVC adalah arsitektur yang digunakan terutama dalam kerangka kerja web seperti Ruby on Rails dan Laravel. Model mengatur data, View menampilkan data, dan Controller mengatur logika bisnis dan interaksi pengguna.
+2. **MVT (Model-View-Template):**
+   MVT adalah Model View yang menangani bagian tampilan, seperti _markup_ HTML, dan dapat digunakan untuk merender data dari View. Yang membedakan MVT adalah varian dari MVC yang digunakan dalam kerangka kerja web Django. Peran View di Django mencakup fungsi dari Controller dalam MVC, sementara Template bertanggung jawab untuk tampilan.
+3. **MVVM (Model-View-ViewModel):**
+   MVVM merupakan Model View yang menyediakan perantara antara Model dan View. Dengan kata lain mengubah data Model ke format yang dapat ditampilkan oleh View dan menerima input dari View untuk memperbarui Model. Yang membedakan MVVM adalah arsitektur yang sering digunakan dalam pengembangan aplikasi berbasis klien (seperti aplikasi desktop atau aplikasi mobile). ViewModel adalah perbedaan utama, yang memisahkan View dan Model dengan memasukkan _middle-layer_.
