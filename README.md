@@ -103,13 +103,13 @@ Apakah bisa melakukan pengembangan aplikasi berbasis django tanpa virtual enviro
 ## Perbedaan POST dan GET dalam Django
 Form POST dan form GET adalah dua metode pengiriman data dari browser ke server dalam pengembangan web dengan menggunakan protokol HTTP.
 
-**POST**
+**POST** <br>
 Post biasa digunakan ketika ingin mengirim data yang akan dimasukkan ke dalam database, melakukan tindakan yang memengaruhi data di server, atau mengirimkan data yang sensitif. Berikut poin-poin untuk memperjelas:
 1. Data dikirimkan dalam badan permintaan HTTP. Karena tidak tampil langsung di URL, sehingga cocok untuk mengirim data yang sensitif. Selain itu juga membuat URL tetap bersih dan dapat dibaca oleh manusia.
 2. Menghindari penyimpanacan cache.
 3. Tidak memiliki batas ukuran data yang dapat dikirimkan, cocok untuk mengirim data besar atau kompleks
 
-**GET**
+**GET** <br>
 Metode GET umumnya digunakan untuk mengambil data dari server tanpa mengubahnya, seperti pencarian atau pengambilan halaman. Berikut poin-poin untuk memperjelas:
 1. Data dikirimkan sebagai bagian dari URL. Karena tampil langsung di URL, sehingga tidak cocok untuk mengirim data yang sensitif. Selain itu juga membuat URL panjang sesuai dengan parameter yang digunakan.
 2. Memungkinkan penyimpanan cache, namun sensitif akan perubahan data yang dinamis.
@@ -119,30 +119,36 @@ Metode GET umumnya digunakan untuk mengambil data dari server tanpa mengubahnya,
 **XML**
 - Penggunaan: Umumnya digunakan untuk pertukaran data antar sistem atau aplikasi.
 - Struktur: Data dalam XML dikelompokkan dalam elemen, dan setiap elemen memiliki tag pembuka dan penutup. Memungkinkan pendifinisian data yang terstruktur dan fleksibel. co:
-```
+  ```
 <person>
     <name>Hanan Adipratama</name>
     <age>19</age>
 </person>
-```
+  ```
 - Keunggulan: Self-descriptive, mendukung validasi melalui DTD atau XML Schema, dapat digunakan untuk data dengan struktur yang kompleks.
 
 **JSON**
 - Penggunaan: JSON didesain untuk pertukaran data ringan antar sistem dan bahasa pemrograman.
-- Struktur: Data dalam JSON berformat teks yang terdiri dari pasangan "key-value".co:
-```
+- Struktur: Data dalam JSON berformat teks yang terdiri dari pasangan "key-value". co:
+  ```
 {
-    "name": "Hanan Adipratama",
-    "age": 19
+"name": "Hanan Adipratama",
+"age": 19
 }
-```
+  ```
 - Keunggulan: Mudah dibaca oleh manusia dan diurai oleh mesin, efisien dalam penggunaan bandwidth, kompatibel dengan banyak bahasa pemrograman.
 
 **HTML**
 - Penggunaan: Bahasa markup yang digunakan untuk mengatur tampilan dan struktur elemen-elemen web di browser.
-- Struktur: HTML memiliki struktur yang ditentukan dengan baik, terdiri dari elemen-elemen seperti <html>, <head>, <body>, <p>, <div>, dan banyak lagi. Ini tidak digunakan untuk pertukaran data dalam format yang kaya, tetapi untuk menampilkan konten di browser.
+- Struktur: HTML memiliki struktur yang ditentukan dengan baik, terdiri dari elemen-elemen seperti `<html>`, `<head>`, `<body>`, `<p>`, `<div>`, dan banyak lagi. Ini tidak digunakan untuk pertukaran data dalam format yang kaya, tetapi untuk menampilkan konten di browser. co:
+  ```
+<tr>
+    <td>Hanan Adipratama</td>
+    <td>19</td>
+</tr>
+  ```
 - Keunggulan: Digunakan untuk membangun tampilan halaman web, memiliki struktur yang terdefinisi dengan baik, tidak digunakan untuk pertukaran data.
-
+<br>
 Singkatnya, XML digunakan untuk merepresentasikan data dengan struktur yang kompleks, JSON digunakan untuk pertukaran data ringan antar aplikasi, dan HTML digunakan untuk membangun tampilan halaman web di browser. 
 
 ## Pertukaran data antara aplikasi web modern menggunakan JSON
@@ -384,7 +390,16 @@ def show_main(request):
 
 ## Screenshoot Postman
 ### `localhost:8000`
+<img width="960" alt="htmlscreenshot" src="https://github.com/hanan-collab/AlbionStorage/assets/63461469/1b59a24d-1eda-4ccb-aa21-8f01a9d15455">
+
 ### `localhost:8000/xml`
+<img width="960" alt="xmlscreenshot" src="https://github.com/hanan-collab/AlbionStorage/assets/63461469/b6f9bf05-9c38-479a-8c23-a5cb0fa1533f">
+
 ### `localhost:8000/json`
+<img width="960" alt="jsonscreenshot" src="https://github.com/hanan-collab/AlbionStorage/assets/63461469/0e6a9718-94e9-4616-89aa-68eb174cbac4">
+
 ### `localhost:8000/xml/[id]` (ID yang dipakai 1)
+<img width="960" alt="xmlbyidscreenshot" src="https://github.com/hanan-collab/AlbionStorage/assets/63461469/29203dfd-860b-4071-9bd0-ecd2d9fac937">
+
 ### `localhost:8000/json[id]` (ID yang dipakai 1)
+<img width="960" alt="jsonbyidscreenshot" src="https://github.com/hanan-collab/AlbionStorage/assets/63461469/3c44b487-9f5b-4785-b98f-65adfd8c1a87">
