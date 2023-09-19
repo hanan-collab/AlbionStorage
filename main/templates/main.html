@@ -1,19 +1,48 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Albion Storage</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <h1>Albion Storage</h1>
     <h2>Name: {{ name }}</h2>
     <h2>Class: {{ class }}</h2>
     <h3>AccountID: {{ accountID }}</h3>
     <p>Balance: {{ balance }}</p>
+    <!-- <p>Balance: {{ balance }}</p> -->
     <h3>Inventory</h3>
-    <ul>
+    <!-- <ul>
         <li>
             <p>{{ item }} | {{ description }} | {{ itemPower }} | {{ tier }} | {{ amount }} | {{ place }} | {{ price }}</p>
         </li>
-    </ul>
-</body>
-</html>
+    </ul> -->
+    
+    <p>Kamu menyimpan {{ product_count }} item pada inventory</p>  <!-- Display the product count -->
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Date Added</th>
+        </tr>
+
+        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+        {% for product in products %}
+            <tr>
+                <td>{{product.name}}</td>
+                <td>{{product.amount}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.date_added}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br />
+
+    <a href="{% url 'main:create_product' %}">
+        <button>
+            Add New Product
+        </button>
+    </a>
+
+{% endblock content %}
