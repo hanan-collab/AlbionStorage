@@ -119,34 +119,34 @@ Metode GET umumnya digunakan untuk mengambil data dari server tanpa mengubahnya,
 **XML**
 - Penggunaan: Umumnya digunakan untuk pertukaran data antar sistem atau aplikasi.
 - Struktur: Data dalam XML dikelompokkan dalam elemen, dan setiap elemen memiliki tag pembuka dan penutup. Memungkinkan pendifinisian data yang terstruktur dan fleksibel. co:
-  ```
+```
 <person>
     <name>Hanan Adipratama</name>
     <age>19</age>
 </person>
-  ```
+```
 - Keunggulan: Self-descriptive, mendukung validasi melalui DTD atau XML Schema, dapat digunakan untuk data dengan struktur yang kompleks.
 
 **JSON**
 - Penggunaan: JSON didesain untuk pertukaran data ringan antar sistem dan bahasa pemrograman.
 - Struktur: Data dalam JSON berformat teks yang terdiri dari pasangan "key-value". co:
-  ```
+```
 {
 "name": "Hanan Adipratama",
 "age": 19
 }
-  ```
+```
 - Keunggulan: Mudah dibaca oleh manusia dan diurai oleh mesin, efisien dalam penggunaan bandwidth, kompatibel dengan banyak bahasa pemrograman.
 
 **HTML**
 - Penggunaan: Bahasa markup yang digunakan untuk mengatur tampilan dan struktur elemen-elemen web di browser.
 - Struktur: HTML memiliki struktur yang ditentukan dengan baik, terdiri dari elemen-elemen seperti `<html>`, `<head>`, `<body>`, `<p>`, `<div>`, dan banyak lagi. Ini tidak digunakan untuk pertukaran data dalam format yang kaya, tetapi untuk menampilkan konten di browser. co:
-  ```
+```
 <tr>
     <td>Hanan Adipratama</td>
     <td>19</td>
 </tr>
-  ```
+```
 - Keunggulan: Digunakan untuk membangun tampilan halaman web, memiliki struktur yang terdefinisi dengan baik, tidak digunakan untuk pertukaran data.
 <br>
 Singkatnya, XML digunakan untuk merepresentasikan data dengan struktur yang kompleks, JSON digunakan untuk pertukaran data ringan antar aplikasi, dan HTML digunakan untuk membangun tampilan halaman web di browser. 
