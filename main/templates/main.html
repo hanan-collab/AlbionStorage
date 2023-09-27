@@ -13,7 +13,9 @@
     <table>
         <tr>
             <th>Name</th>
+            <th></th>
             <th>Amount</th>
+            <th></th>
             <th>Description</th>
             <th>Price</th>
             <th>Date Added</th>
@@ -23,20 +25,42 @@
         {% for product in products %}
             <tr>
                 <td>{{product.name}}</td>
-                <td>{{product.amount}}</td>
+                <td>
+                    <form method="post" action="{% url 'main:decrement_amount' product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-sm">-</button>
+                    </form>
+                </td>
+                <td>{{ product.amount }}</td>
+                <td>
+                    <form method="post" action="{% url 'main:increment_amount' product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-sm">+</button>
+                    </form>
+                </td>
                 <td>{{product.description}}</td>
                 <td>{{product.price}}</td>
                 <td>{{product.date_added}}</td>
+                <td>
+                    <form method="post" action="{% url 'main:delete_product' product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </table>
 
     <br />
-
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
     <a href="{% url 'main:create_product' %}">
         <button>
             Add New Product
         </button>
     </a>
-
+    <a href="{% url 'main:logout' %}">
+        <button>
+            Logout
+        </button>
+    </a>
 {% endblock content %}
