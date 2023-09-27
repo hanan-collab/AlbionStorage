@@ -689,10 +689,12 @@ python manage.py migrate
 ```
 
 ### 4. Membuat Dua Akun dengan Tiga Dummy Data untuk Setiap Akun Lokal
-Akun pertama a,
+#### Akun a,
 <img width="960" alt="dummyascreenshot" src="https://github.com/hanan-collab/AlbionStorage/assets/63461469/8e070547-e665-46d7-879f-0128166c2c3b">
-Akun kedua b,
+
+#### Akun b,
 <img width="960" alt="dummybscreenshot" src="https://github.com/hanan-collab/AlbionStorage/assets/63461469/6e240ba1-69a8-4097-8df9-d2e48c4aa72b">
+
 ### 5. Catatan Tambahan
 Menambahkan button decrement amount, increment amount, dan delete product pertama-tama menambahkan library yang dibutuhkan
 ```
