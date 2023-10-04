@@ -13,7 +13,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 import datetime
-from django.http import JsonResponse
 
 # Create your views here.
 @login_required(login_url='/login')

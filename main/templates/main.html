@@ -1,66 +1,101 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Albion Storage</h1>
-    <h2>Name: {{ name }}</h2>
-    <h2>Class: {{ class }}</h2>
-    <h3>AccountID: {{ accountID }}</h3>
-    <p>Balance: {{ balance }}</p>
-    <h3>Inventory</h3>
-    
-    <p>Kamu menyimpan {{ product_count }} item pada inventory</p>  <!-- Display the product count -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12"> <!-- Changed 'col-md-6' to 'col-md-12' for full width -->
+            <div class="card mt-4 mb-4">
+                <div class="card-body">
+                    <h1 class="card-title text-center">Albion Storage</h1>
+                    <h4><strong>AccountID: </strong>{{ accountID }}</h4>
+                    <p><strong>Balance: </strong>{{ balance }}</p>
+                    <h4><strong>Inventory</strong></h4>
+                    
+                    <p>Kamu menyimpan {{ product_count }} item pada inventory</p>  <!-- Display the product count -->
 
-    <table>
-        <tr>
-            <th>Name</th>
-            <th></th>
-            <th>Amount</th>
-            <th></th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Date Added</th>
-        </tr>
+                    <style>
+                        /* Custom CSS for margin and layout */
+                        .button-group {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-top: 10px;
+                        }
+                        /* Custom CSS for the product card grid */
+                        .product-card {
+                            margin-bottom: 20px;
+                        }
+                        /* Custom CSS for flexible buttons */
+                        .button-group .btn {
+                            flex: 1;
+                        }
+                        /* Custom CSS to make "-" and "+" buttons side by side */
+                        .button-group .btn-group {
+                            display: flex;
+                            align-items: center;
+                        }
+                        .button-group .btn-group .btn {
+                            flex: none;
+                        }
+                    </style>
+                    
+                    <div style="max-height: 500px; overflow-y: scroll;">
+                        <!-- Replace the table with a card -->
+                        <div class="card">
+                            <div class="card-body">
+                                {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+                                <div class="row">
+                                    {% for product in products %}
+                                        <div class="col-md-4 product-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ product.name }}</h5>
+                                                    <p class="card-text">
+                                                        Amount: {{ product.amount }}<br>
+                                                        Description: {{ product.description }}<br>
+                                                        Price: {{ product.price }}<br>
+                                                        Date Added: {{ product.date_added }}
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="button-group">
+                                                        <form method="post" action="{% url 'main:decrement_amount' product.id %}">
+                                                            {% csrf_token %}
+                                                            <div class="btn-group">
+                                                                <button type="submit" class="btn btn-primary btn-sm">-</button>
+                                                                <button type="submit" class="btn btn-primary btn-sm">+</button>
+                                                            </div>
+                                                        </form>
+                                                        <form method="post" action="{% url 'main:delete_product' product.id %}">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of card -->
+                    </div>                                                           
 
-        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
-        {% for product in products %}
-            <tr>
-                <td>{{product.name}}</td>
-                <td>
-                    <form method="post" action="{% url 'main:decrement_amount' product.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary btn-sm">-</button>
-                    </form>
-                </td>
-                <td>{{ product.amount }}</td>
-                <td>
-                    <form method="post" action="{% url 'main:increment_amount' product.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary btn-sm">+</button>
-                    </form>
-                </td>
-                <td>{{product.description}}</td>
-                <td>{{product.price}}</td>
-                <td>{{product.date_added}}</td>
-                <td>
-                    <form method="post" action="{% url 'main:delete_product' product.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-
-    <br />
-    <h5>Sesi terakhir login: {{ last_login }}</h5>
-    <a href="{% url 'main:create_product' %}">
-        <button>
-            Add New Product
-        </button>
-    </a>
-    <a href="{% url 'main:logout' %}">
-        <button>
-            Logout
-        </button>
-    </a>
+                    <br />
+                    <h5>Sesi terakhir login: {{ last_login }}</h5>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'main:create_product' %}">
+                            <button class="btn btn-primary">Add New Product</button>
+                        </a>
+                        <a href="{% url 'main:logout' %}">
+                            <button class="btn btn-danger">Logout</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: right;">
+            <p><strong>Name:</strong> {{ name }} &nbsp;&nbsp;&nbsp;&nbsp; <strong>Class:</strong> {{ class }}</p>
+        </div>
+    </div>
+</div>
 {% endblock content %}

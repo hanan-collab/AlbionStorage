@@ -118,7 +118,7 @@ Metode GET umumnya digunakan untuk mengambil data dari server tanpa mengubahnya,
 ## Perbedaan utama XML, JSON, dan HTML dalam konteks pengeriman data
 **XML**
 - Penggunaan: Umumnya digunakan untuk pertukaran data antar sistem atau aplikasi.
-- Struktur: Data dalam XML dikelompokkan dalam elemen, dan setiap elemen memiliki tag pembuka dan penutup. Memungkinkan pendifinisian data yang terstruktur dan fleksibel. co:
+- Struktur: Data dalam XML dikelompokkan dalam elemen, dan setiap element memiliki tag pembuka dan penutup. Memungkinkan pendifinisian data yang terstruktur dan fleksibel. co:
 ```
 <person>
     <name>Hanan Adipratama</name>
@@ -139,8 +139,8 @@ Metode GET umumnya digunakan untuk mengambil data dari server tanpa mengubahnya,
 - Keunggulan: Mudah dibaca oleh manusia dan diurai oleh mesin, efisien dalam penggunaan bandwidth, kompatibel dengan banyak bahasa pemrograman.
 
 **HTML**
-- Penggunaan: Bahasa markup yang digunakan untuk mengatur tampilan dan struktur elemen-elemen web di browser.
-- Struktur: HTML memiliki struktur yang ditentukan dengan baik, terdiri dari elemen-elemen seperti `<html>`, `<head>`, `<body>`, `<p>`, `<div>`, dan banyak lagi. Ini tidak digunakan untuk pertukaran data dalam format yang kaya, tetapi untuk menampilkan konten di browser. co:
+- Penggunaan: Bahasa markup yang digunakan untuk mengatur tampilan dan struktur elemen-element web di browser.
+- Struktur: HTML memiliki struktur yang ditentukan dengan baik, terdiri dari elemen-element seperti `<html>`, `<head>`, `<body>`, `<p>`, `<div>`, dan banyak lagi. Ini tidak digunakan untuk pertukaran data dalam format yang kaya, tetapi untuk menampilkan konten di browser. co:
 ```
 <tr>
     <td>Hanan Adipratama</td>
@@ -156,7 +156,7 @@ Singkatnya, XML digunakan untuk merepresentasikan data dengan struktur yang komp
 
 2. **Independen Bahasa**: JSON adalah format data yang independen dari bahasa, artinya dapat digunakan dalam berbagai bahasa pemrograman. Hal ini memungkinkan aplikasi yang ditulis dalam bahasa yang berbeda untuk berkomunikasi dan berbagi data dengan mudah.
 
-3. **Mendukung Struktur Nested Array**: JSON mendukung struktur nested array, yang memungkinkan Anda untuk menyimpan data yang kompleks dengan mudah.
+3. **Mendukung Struktur Nested Array**: JSON mendukung struktur nested array, yang memungkinkan untuk menyimpan data yang kompleks dengan mudah.
 
 4. **Kompatibel dengan JavaScript**: JSON merujuk pada "JavaScript" dalam namanya karena formatnya mirip dengan objek JavaScript. Ini membuatnya sangat cocok untuk digunakan dalam aplikasi web yang menggunakan JavaScript sebagai bahasa pemrograman klien.
 
@@ -757,3 +757,615 @@ kemudian membuat button pada `main.html`,
 </td>
 ...
 ```
+# TUGAS 5
+## Element Selector dan Manfaatnya
+Element selector memilih HTML element berdasar nama dari element tersebut. Element Selector dapat dibagi menjadi,
+### 1. Selector Tag Umum (Ex: `<p>`, `<h1>`, etc):
+```
+p {
+  font-size: 16px;
+}
+```
+* Kegunaan pada contoh: Selector ini digunakan untuk mengubah ukuran font semua element paragraf (<p>) pada halaman.
+* Kapan Menggunakannya: Ketika ingin **menerapkan gaya umum** pada semua element dengan **jenis tag tertentu**.
+### 2. Selector Universal (Ex: "*"):
+```
+* {
+  `Margin`: 0;
+  `Padding`: 0;
+}
+```
+* Kegunaan pada contoh: Selector universal digunakan untuk menghilangkan `Margin` dan `Padding` default pada semua element di halaman.
+* Kapan Menggunakannya: Digunakan saat ingin mengatur beberapa gaya dasar **secara global** di seluruh halaman web.
+### 3. Pseudo-Elements (Ex: `::before`, `::first-line`, etc):
+```
+blockquote::before {
+  content: "\201C"; /* Menambahkan tanda kutip sebelum blok kutip */
+}
+```
+* Kegunaan: Pseudo-element `::before` digunakan untuk menambahkan tanda kutip ("\201C") sebelum element blok kutip (<blockquote>).
+* Kapan Menggunakannya: Digunakan ketika ingin menambahkan konten tambahan pada element yang dipilih **sesuai dengan kondisi yang diberikan pada pseudo-element**. Tiap pseudo-element memiliki kondisi dan kegunaanya masing-masing.
+### 4. Pseudo-Classes(Ex `:hover`, `focus`, `:nth-child`, etc):
+```
+a:hover {
+  color: red; /* Mengubah warna teks saat menghover tautan */
+}
+```
+* Kegunaan: Pseudo-class `:hover` digunakan untuk mengubah warna teks saat tautan (`<a>`) dihover oleh mouse.
+* Kapan Menggunakannya: Digunakan untuk memberikan interaksi tambahan pada element berdasarkan perilaku pengguna ataupun struktur dokumen HTML, seperti mengubah tampilan saat element dihover atau diklik. Tiap pseudo-classes memiliki kegunaanya masing-masing.
+## HTML5 Tag
+HTML5 adalah versi terbaru dari bahasa markup HTML yang memperkenalkan banyak element baru untuk meningkatkan semantik dan struktur dokumen web.
+
+### 1. `<header>`
+```
+<header>
+  <h1>Halaman Utama</h1>
+  <p>Selamat datang di situs web kami.</p>
+</header>
+```
+Digunakan untuk menggambarkan bagian atas dari sebuah element atau bagian dalam halaman web, seperti judul atau logo situs.
+
+### 2. `<nav>`
+```
+<nav>
+  <ul>
+    <li><a href="#">Beranda</a></li>
+    <li><a href="#">Tentang Kami</a></li>
+    <li><a href="#">Layanan</a></li>
+    <li><a href="#">Hubungi Kami</a></li>
+  </ul>
+</nav>
+```
+Digunakan untuk mengelompokkan tautan navigasi utama di dalam elemen, seperti menu navigasi situs.
+
+### 3. `<main>`
+```
+<main>
+  <h2>Artikel Terbaru</h2>
+  <article>
+    <h3>Judul Artikel 1</h3>
+    <p>Isi artikel pertama.</p>
+  </article>
+  <article>
+    <h3>Judul Artikel 2</h3>
+    <p>Isi artikel kedua.</p>
+  </article>
+</main>
+```
+Digunakan untuk menggambarkan isi utama dari halaman web, dan biasanya hanya ada satu element `<main>` per halaman.
+
+### 4. `<section>`
+```
+<section>
+  <h2>Berita Terkini</h2>
+  <article>
+    <h3>Judul Berita 1</h3>
+    <p>Isi berita pertama.</p>
+  </article>
+  <article>
+    <h3>Judul Berita 2</h3>
+    <p>Isi berita kedua.</p>
+  </article>
+</section>
+```
+Digunakan untuk mengelompokkan konten yang terkait dalam sebuah bagian, seperti artikel dalam sebuah berita.
+
+### 5. `<aside>`
+```
+<aside>
+  <h3>Artikel Terkait</h3>
+  <ul>
+    <li><a href="#">Artikel 1</a></li>
+    <li><a href="#">Artikel 2</a></li>
+    <li><a href="#">Artikel 3</a></li>
+  </ul>
+</aside>
+```
+Digunakan untuk menggambarkan konten yang sekunder atau tambahan dalam halaman, seperti sidebar.
+
+### 6. `<footer>`
+```
+<footer>
+  <p>&copy; 2023 Nama Situs. Hak Cipta Dilindungi.</p>
+  <p><a href="#">Kebijakan Privasi</a> | <a href="#">Syarat & Ketentuan</a></p>
+</footer>
+```
+Digunakan untuk menggambarkan bagian bawah dari sebuah element atau bagian dalam halaman web, seperti informasi hak cipta atau tautan ke halaman lain.
+
+### 7. `<figure>` dan `<figcaption>`
+```
+<figure>
+  <img src="gambar.jpg" alt="Deskripsi gambar">
+  <figcaption>Gambar ilustrasi produk.</figcaption>
+</figure>
+```
+`<figure>` digunakan untuk mengelompokkan element multimedia, seperti gambar atau video, bersama dengan element `<figcaption>` yang digunakan untuk memberikan keterangan atau deskripsi.
+
+### 8. `<time>`
+```
+<p>Artikel ini diterbitkan pada <time datetime="2023-10-05">5 Oktober 2023</time>.</p>
+```
+Digunakan untuk menggambarkan waktu atau tanggal dalam format yang dapat dibaca oleh mesin, seperti tanggal publikasi artikel.
+
+### 9. `<mark>`
+```
+<p>Deadline <mark>4 Oktober 2023</mark>.</p>
+```
+Digunakan untuk menyorot atau memberi penekanan pada teks tertentu dalam dokumen.
+
+## `Margin` VS `Padding`
+![google](https://media.geeksforgeeks.org/wp-content/uploads/20210317151556/marginpadding.png)
+
+Ketika merancang tata letak halaman web dengan CSS, penting untuk memahami perbedaan antara `Margin` dan `Padding`. Kedua properti ini memengaruhi ruang di sekitar dan di dalam element HTML, dan mereka memiliki fungsi yang berbeda.
+
+### `Margin`
+`Margin` adalah ruang di luar element HTML. `Margin` mendefinisikan jarak antara element dan element lain di sekitarnya. `Margin` digunakan untuk mengendalikan jarak antara element dengan element lainnya.
+Contoh:
+
+```
+.div1 {
+  margin: 10px;
+}
+
+.div2 {
+  margin: 20px 10px;
+}
+```
+
+### `Padding`
+`Padding` adalah ruang di dalam element HTML.
+`Padding` mendifinisikan jarak antara konten element dan tepi element itu sendiri. `Padding` digunakan untuk mengendalikan jarak antara konten element dan batas element itu sendiri.
+Contoh:
+
+```
+.div1 {
+  `Padding`: 10px;
+}
+
+.div2 {
+  `Padding`: 20px 10px;
+}
+```
+
+Ringkasan
+`Margin` memengaruhi ruang di luar elemen, sementara `Padding` memengaruhi ruang di dalam elemen.
+`Margin` digunakan untuk mengatur jarak antara element dengan element lainnya, sedangkan `Padding` digunakan untuk mengatur jarak antara konten element dan tepi element itu sendiri.
+Memahami perbedaan antara `Margin` dan `Padding` penting untuk mengontrol tata letak dan tampilan elemen-element dalam halaman web.
+
+## `Tailwind` VS `Bootstrap`
+Ketika memilih framework CSS untuk pengembangan web, ada beberapa perbedaan antara `Tailwind` CSS dan `Bootstrap` yang perlu dipertimbangkan, serta situasi di mana salah satu lebih sesuai daripada yang lain.
+
+### `Tailwind` CSS
+
+`Tailwind` CSS adalah framework CSS yang bersifat **utility-first**, artinya membangun tampilan dengan menggabungkan kelas-kelas utilitas ke element HTML. Ini memberikan tingkat fleksibilitas yang tinggi dalam menyesuaikan tampilan elemen.
+
+Cocok digunakan ketika ingin **memiliki kontrol yang sangat detail** atas tampilan suatu element.
+Baik untuk proyek-proyek yang memerlukan desain kustom dan tidak ingin diikat oleh gaya pra-didefinisikan.
+
+```
+<div class="bg-blue-500 p-4 rounded-lg">
+  <p class="text-white">Ini adalah element dengan latar belakang biru dan padding.</p>
+</div>
+```
+
+### `Bootstrap`
+
+`Bootstrap` adalah framework CSS yang telah dirancang dengan gaya desain yang sudah ada dan komponen-komponen yang telah didefinisikan sebelumnya. Ini menyediakan komponen-komponen **siap pakai dan tata letak yang dapat digunakan dengan cepat**.
+
+Cocok digunakan untuk pengembangan web yang cepat dan **tidak memerlukan desain kustom yang rumit**. Berguna untuk proyek-proyek yang ingin memanfaatkan komponen-komponen UI yang sudah ada.
+```
+<div class="container">
+  <div class="alert alert-primary">
+    <p>Ini adalah pesan peringatan dengan warna biru.</p>
+  </div>
+</div>
+```
+### Kesimpulan
+* `Tailwind` CSS cocok digunakan ketika ingin desain yang sangat kustom dan fleksibilitas tinggi dalam mengontrol tampilan elemen.
+* `Bootstrap` cocok digunakan ketika ingin pengembangan yang cepat dengan komponen-komponen UI yang sudah ada dan tampilan yang sudah didefinisikan sebelumnya.
+
+## _Step-by-step_ pengerjaan tugas
+### 1. Hal-Hal Umum yang Ditambahkan
+Agar lebih rapih maka diaplikasikan hal-hal berikut,
+#### Container
+```
+<div class="container">
+    <!-- Konten -->
+</div>
+```
+Pada kode di atas, class "container" digunakan untuk membuat kontainer dengan lebar terbatas yang akan mengatur kontennya secara otomatis di tengah halaman.
+
+#### Row
+```
+<div class="row justify-content-center">
+    <!-- Konten -->
+</div>
+```
+Class "row" digunakan untuk membuat baris (row) yang berisi konten. Penggunaan class "justify-content-center" mengatur posisi konten di tengah horizontal.
+
+#### Card
+```
+<div class="card mt-5">
+    <!-- Konten -->
+</div>
+```
+Kelas "card" digunakan untuk membuat tampilan kartu dengan bayangan dan bingkai.
+
+#### Form Group
+```
+<div class="form-group">
+    <!-- Konten formulir -->
+</div>
+```
+Class "form-group" digunakan untuk mengelompokkan elemen-elemen formulir, seperti label dan input, sehingga dapat diatur dengan lebih baik.
+
+#### Form Control
+```
+<input type="text" name="username" id="username" class="form-control" placeholder="Username">
+```
+Class "form-control" digunakan untuk mengubah tampilan elemen input agar memiliki gaya yang seragam dan responsif.
+
+#### Tombol
+```
+<button class="btn btn-primary login_btn" type="submit">Login</button>
+```
+Kelas "btn" digunakan untuk membuat tombol dengan tampilan yang seragam, dan "btn-primary" memberikan warna latar belakang biru pada tombol.
+
+#### Daftar Tanpa Gaya
+```
+<ul class="list-unstyled mt-3">
+    <!-- Daftar -->
+</ul>
+```
+Kelas "list-unstyled" digunakan untuk menghilangkan gaya bawaan daftar dan margin pada elemen daftar yang tidak terurut.
+
+##### Teks Tengah
+```
+<p class="text-center mt-3">Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a></p>
+```
+Class "text-center" digunakan untuk mengatur teks menjadi tengah secara horizontal.
+
+### 2. login.html
+Selain hal umum yang digunakan, berikut tambahan aplikasi pada `login.html`:
+#### Custom Internal CSS
+```
+<style>
+    .text-danger {
+        color: red;
+    }
+</style>
+```
+```
+<li class="text-danger">{{ message }}</li>
+```
+Kelas "text-danger" digunakan untuk memberikan warna teks merah pada pesan error atau peringatan. CSS untuk kelas ini telah ditentukan dengan CSS internal.
+#### Hasil Akhir
+```
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h1 class="card-title text-center">Login</h1>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+                        </div>
+                        <div class="form-group text-center mt-3">
+                            <button class="btn btn-primary login_btn" type="submit">Login</button>
+                        </div>
+                    </form>
+                    <style>
+                        .text-danger {
+                            color: red;
+                        }
+                    </style>
+                    {% if messages %}
+                        <ul class="list-unstyled mt-3">
+                            {% for message in messages %}
+                                <li class="text-danger">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <p class="text-center mt-3">Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+```
+### 3. register.html
+`register.html` hanya mengaplikasikan yand ada pada hal umum.
+#### Hasil Akhir
+```
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Register</title>
+{% endblock meta %}
+
+{% block content %}  
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5 mb-4"> <!-- Added 'mb-4' class for margin -->
+                <div class="card-body">
+                    <h1 class="card-title text-center">Register</h1>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <table class="table">
+                            {{ form.as_table }}
+                        </table>
+                        <div class="text-center mt-3">
+                            <input type="submit" name="submit" value="Register" class="btn btn-primary"/>
+                        </div>
+                    </form>
+
+                    {% if messages %}
+                        <ul class="list-unstyled mt-3">
+                            {% for message in messages %}
+                                <li class="text-danger">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+```
+### 4. create_product.html
+`create_product.html` hanya mengaplikasikan yand ada pada hal umum.
+#### Hasil Akhir
+```
+{% extends 'base.html' %} 
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5 mb-4"> <!-- Added 'mb-4' class for margin -->
+                <div class="card-body">
+                    <h1 class="card-title text-center">Add New Product</h1>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <table class="table">
+                            {{ form.as_table }}
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input type="submit" value="Add Product" class="btn btn-primary btn-block"/> <!-- Added 'btn-block' class -->
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+```
+
+### 5. main.html
+Berikut hal lain yang diaplikasikan pada `main.html` yang tidak ada di bagian umum,
+
+#### Container Full Width:
+```
+<div class="col-md-12">
+    <!-- Konten -->
+</div>
+```
+Dalam kode ini, kolom (column) mengisi lebar penuh halaman dengan class "col-md-12".
+
+#### Custom Internal CSS:
+Berikut adalah contoh CSS kustom pada element yang ingin ditunjuk yang ditambahkan dalam tag `<style>`:
+```
+<style>
+    /* Mengatur tata letak dan margin elemen-elemen tertentu */
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+    .product-card {
+        margin-bottom: 20px;
+    }
+    /* Mengatur fleksibilitas tombol */
+    .button-group .btn {
+        flex: 1;
+    }
+    /* Menjadikan tombol "-" dan "+" bersebelahan */
+    .button-group .btn-group {
+        display: flex;
+        align-items: center;
+    }
+    .button-group .btn-group .btn {
+        flex: none;
+    }
+</style>
+```
+#### Custom Inline CSS:
+Inline CSS digunakan ketika terjadi kasus-kasus khusus dan bukan keumuman seperti pada Internal CSS, berikut contohnya,
+```
+<div style="max-height: 500px; overflow-y: scroll;">
+    <!-- Replace the table with a card -->
+    ...
+<div>
+```
+#### Card untuk Produk:
+```
+<!-- Menggantikan tabel dengan card untuk menampilkan data produk -->
+<div class="card">
+    <div class="card-body">
+        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4 product-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">
+                                Amount: {{ product.amount }}<br>
+                                Description: {{ product.description }}<br>
+                                Price: {{ product.price }}<br>
+                                Date Added: {{ product.date_added }}
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="button-group">
+                                <form method="post" action="{% url 'main:decrement_amount' product.id %}">
+                                    {% csrf_token %}
+                                    <div class="btn-group">
+                                        <button type="submit" class="btn btn-primary btn-sm">-</button>
+                                        <button type="submit" class="btn btn-primary btn-sm">+</button>
+                                    </div>
+                                </form>
+                                <form method="post" action="{% url 'main:delete_product' product.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+```
+Kode ini menggunakan elemen "card" untuk menampilkan informasi produk, yang lebih cocok daripada tabel dalam konteks ini. Setiap produk ditampilkan dalam "card" terpisah.
+
+#### Tombol "Add New Product" dan "Logout":
+```
+<!-- Tombol "Add New Product" dengan class "btn btn-primary" -->
+<a href="{% url 'main:create_product' %}">
+    <button class="btn btn-primary">Add New Product</button>
+</a>
+
+<!-- Tombol "Logout" dengan class "btn btn-danger" -->
+<a href="{% url 'main:logout' %}">
+    <button class="btn btn-danger">Logout</button>
+</a>
+```
+Tombol-tombol ini juga menggunakan kelas Bootstrap "btn" untuk tampilan yang seragam. Tombol "Add New Product" memiliki warna biru (btn-primary), sementara tombol "Logout" memiliki warna merah (btn-danger).
+
+#### Hasil Akhir
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12"> <!-- Changed 'col-md-6' to 'col-md-12' for full width -->
+            <div class="card mt-4 mb-4">
+                <div class="card-body">
+                    <h1 class="card-title text-center">Albion Storage</h1>
+                    <h4><strong>AccountID: </strong>{{ accountID }}</h4>
+                    <p><strong>Balance: </strong>{{ balance }}</p>
+                    <h4><strong>Inventory</strong></h4>
+                    
+                    <p>Kamu menyimpan {{ product_count }} item pada inventory</p>  <!-- Display the product count -->
+
+                    <style>
+                        /* Custom CSS for margin and layout */
+                        .button-group {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-top: 10px;
+                        }
+                        /* Custom CSS for the product card grid */
+                        .product-card {
+                            margin-bottom: 20px;
+                        }
+                        /* Custom CSS for flexible buttons */
+                        .button-group .btn {
+                            flex: 1;
+                        }
+                        /* Custom CSS to make "-" and "+" buttons side by side */
+                        .button-group .btn-group {
+                            display: flex;
+                            align-items: center;
+                        }
+                        .button-group .btn-group .btn {
+                            flex: none;
+                        }
+                    </style>
+                    
+                    <div style="max-height: 500px; overflow-y: scroll;">
+                        <!-- Replace the table with a card -->
+                        <div class="card">
+                            <div class="card-body">
+                                {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+                                <div class="row">
+                                    {% for product in products %}
+                                        <div class="col-md-4 product-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ product.name }}</h5>
+                                                    <p class="card-text">
+                                                        Amount: {{ product.amount }}<br>
+                                                        Description: {{ product.description }}<br>
+                                                        Price: {{ product.price }}<br>
+                                                        Date Added: {{ product.date_added }}
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="button-group">
+                                                        <form method="post" action="{% url 'main:decrement_amount' product.id %}">
+                                                            {% csrf_token %}
+                                                            <div class="btn-group">
+                                                                <button type="submit" class="btn btn-primary btn-sm">-</button>
+                                                                <button type="submit" class="btn btn-primary btn-sm">+</button>
+                                                            </div>
+                                                        </form>
+                                                        <form method="post" action="{% url 'main:delete_product' product.id %}">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of card -->
+                    </div>                                                           
+
+                    <br />
+                    <h5>Sesi terakhir login: {{ last_login }}</h5>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'main:create_product' %}">
+                            <button class="btn btn-primary">Add New Product</button>
+                        </a>
+                        <a href="{% url 'main:logout' %}">
+                            <button class="btn btn-danger">Logout</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: right;">
+            <p><strong>Name:</strong> {{ name }} &nbsp;&nbsp;&nbsp;&nbsp; <strong>Class:</strong> {{ class }}</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
