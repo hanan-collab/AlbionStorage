@@ -34,7 +34,7 @@
                         <!-- Replace the table with a card -->
                         <div class="card">
                             <div class="card-body">
-                                {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+                                <!-- {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
                                 <div class="row">
                                     {% for product in products %}
                                         <div class="col-md-4 product-card">
@@ -69,14 +69,14 @@
                                             </div>
                                         </div>
                                     {% endfor %}
-                                </div>
+                                </div> -->
+                                <div id="display_card"></div>
                             </div>
                         </div>
                         <!-- End of card -->
                     </div>                                                           
 
                     </br>
-                    <table id="product_table"></table>
                     <h5>Sesi terakhir login: {{ last_login }}</h5>
                     <div class="d-flex justify-content-between">
                         <a href="{% url 'main:create_product' %}">
@@ -90,7 +90,6 @@
                 </div>
             </div>
         </div>
-        <div id="kontol"></div>
         <div style="text-align: right;">
             <p><strong>Name:</strong> {{ name }} &nbsp;&nbsp;&nbsp;&nbsp; <strong>Class:</strong> {{ class }}</p>
         </div>
@@ -136,6 +135,70 @@
 </div>
 
 <script>
+    function decrementProduct(productId) {
+        fetch(`/decrement_amount/${productId}/`, {
+            method: "POST",
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'), // Include your CSRF token
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle response as needed
+        })
+        .catch(error => {
+            alert('An error occurred during the request');
+        });
+    }
+
+    function incrementProduct(productId) {
+        fetch(`/increment_amount/${productId}/`, {
+            method: "POST",
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'), // Include your CSRF token
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle response as needed
+        })
+        .catch(error => {
+            alert('An error occurred during the request');
+        });
+    }
+
+    function deleteProduct(productId) {
+        fetch(`/delete_product_ajax/${productId}/`, {
+            method: "POST",
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'), // Include your CSRF token
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === 'Product deleted successfully') {
+                // Product deleted, update the UI as needed
+                // For example, remove the corresponding product card
+                const productCard = document.getElementById(`product-card-${productId}`);
+                if (productCard) {
+                    productCard.remove();
+                }
+            } else {
+                alert('Product deletion failed');
+            }
+        })
+        .catch(error => {
+            alert('An error occurred during the request');
+        });
+    }
+
+    // Function to get the CSRF token from cookies
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
     function addProduct() {
         fetch("{% url 'main:add_product_ajax' %}", {
             method: "POST",
@@ -153,46 +216,61 @@
     }
     
     async function refreshProducts() {
-        document.getElementById("product_table").innerHTML = ""
-        const products = await getProducts()
-        let htmlString = `<tr>
-            <th>User</th>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Date Added</th>
-        </tr>`
-        products.forEach((item) => {
-            htmlString += `\n<tr>
-            <td>${item.fields.user}</td>
-            <td>${item.fields.name}</td>
-            <td>${item.fields.amount}</td>
-            <td>${item.fields.description}</td>
-            <td>${item.fields.price}</td>
-            <td>${item.fields.date_added}</td>
-        </tr>` 
-        })
+        // document.getElementById("product_table").innerHTML = ""
+        // const products = await getProducts()
+        // let htmlString = `<tr>
+        //     <th>User</th>
+        //     <th>Name</th>
+        //     <th>Amount</th>
+        //     <th>Description</th>
+        //     <th>Price</th>
+        //     <th>Date Added</th>
+        // </tr>`
+        // products.forEach((item) => {
+        //     htmlString += `\n<tr>
+        //     <td>${item.fields.user}</td>
+        //     <td>${item.fields.name}</td>
+        //     <td>${item.fields.amount}</td>
+        //     <td>${item.fields.description}</td>
+        //     <td>${item.fields.price}</td>
+        //     <td>${item.fields.date_added}</td>
+        // </tr>` 
+        // })
         
-        document.getElementById("product_table").innerHTML = htmlString
+        // document.getElementById("product_table").innerHTML = htmlString
 
-        // document.getElementById("kontol").innerHTML = ""
-        // htmlString =
-        // ` 
-        // <div class="card">
-        //     <div class="card-header">
-        //         <h5 class="card-title">Card Title</h5>
-        //     </div>
-        //     <div class="card-body">
-        //         <p class="card-text">This is a basic Bootstrap card. You can customize its content and appearance as needed.</p>
-        //     </div>
-        //     <div class="card-footer">
-        //         <a href="#" class="btn btn-primary">Learn More</a>
-        //     </div>
-        // </div>
-        // `
-        
-        // document.getElementById("kontol").innerHTML = htmlString
+        document.getElementById("display_card").innerHTML = ""
+        const products = await getProducts()
+        let htmlString = `<div class = row>`
+        products.forEach((item) => {
+            htmlString +=
+            ` 
+            <div class="col-md-4 product-card">
+                <div class="card{%if forloop.last%} last-card{%endif%}">
+                    <div class="card-body">
+                        <h5 class="card-title">${item.fields.name}</h5>
+                        <p class="card-text">
+                            Amount: ${item.fields.amount}<br>
+                            Description: ${item.fields.description}<br>
+                            Price: ${item.fields.price}<br>
+                            Date Added: ${item.fields.date_added}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="button-group">
+                            <div style="display: flex; flex-wrap: wrap;">
+                                <button type="submit" class="btn btn-primary btn-sm" style="border-top-right-radius: 0;border-bottom-right-radius: 0;" onclick="decrementProduct({{ product.id }})">-</button>
+                                <button type="submit" class="btn btn-primary btn-sm" style="border-top-left-radius: 0;border-bottom-left-radius: 0;" onclick="incrementProduct({{ product.id }})">+</button>
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="deleteProduct({{ product.id }})">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `
+        })
+        htmlString += `</div>`
+        document.getElementById("display_card").innerHTML = htmlString
     }
 
     refreshProducts()

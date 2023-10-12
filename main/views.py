@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from main.forms import ProductForm
 from django.urls import reverse
 from main.models import Product
@@ -119,8 +119,19 @@ def delete_product(request, id):
     return HttpResponseRedirect(reverse('main:show_main'))
 
 def get_product_json(request):
-    product_item = Product.objects.all()
+    user = request.user
+    product_item = Product.objects.filter(user=user)
     return HttpResponse(serializers.serialize('json', product_item))
+
+def delete_product_ajax(request, id):
+    if request.method == 'POST':
+        try:
+            product = get_object_or_404(Product, pk=id)
+            product.delete()
+            return JsonResponse({'message': 'Product deleted successfully'})
+        except Exception as e:
+            return JsonResponse({'message': 'Failed to delete product', 'error': str(e)})
+    return JsonResponse({'message': 'Invalid request'})
 
 @csrf_exempt
 def add_product_ajax(request):
