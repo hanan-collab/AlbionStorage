@@ -24,17 +24,9 @@
                         .product-card {
                             margin-bottom: 20px;
                         }
-                        /* Custom CSS for flexible buttons */
-                        .button-group .btn {
-                            flex: 1;
-                        }
-                        /* Custom CSS to make "-" and "+" buttons side by side */
-                        .button-group .btn-group {
-                            display: flex;
-                            align-items: center;
-                        }
-                        .button-group .btn-group .btn {
-                            flex: none;
+
+                        .last-card {
+                            border: 3px solid rgba(0, 0, 255, 0.7);
                         }
                     </style>
                     
@@ -46,7 +38,7 @@
                                 <div class="row">
                                     {% for product in products %}
                                         <div class="col-md-4 product-card">
-                                            <div class="card">
+                                            <div class="card{%if forloop.last%} last-card{%endif%}">
                                                 <div class="card-body">
                                                     <h5 class="card-title">{{ product.name }}</h5>
                                                     <p class="card-text">
@@ -58,13 +50,16 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="button-group">
-                                                        <form method="post" action="{% url 'main:decrement_amount' product.id %}">
-                                                            {% csrf_token %}
-                                                            <div class="btn-group">
-                                                                <button type="submit" class="btn btn-primary btn-sm">-</button>
-                                                                <button type="submit" class="btn btn-primary btn-sm">+</button>
-                                                            </div>
-                                                        </form>
+                                                        <div style="display: flex; flex-wrap: wrap;">
+                                                            <form method="post" action="{% url 'main:decrement_amount' product.id %}">
+                                                                {% csrf_token %}
+                                                                <button type="submit" class="btn btn-primary btn-sm" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">-</button>
+                                                            </form>
+                                                            <form method="post" action="{% url 'main:increment_amount' product.id %}">
+                                                                {% csrf_token %}
+                                                                <button type="submit" class="btn btn-primary btn-sm" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">+</button>
+                                                            </form>
+                                                        </div>
                                                         <form method="post" action="{% url 'main:delete_product' product.id %}">
                                                             {% csrf_token %}
                                                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -80,7 +75,8 @@
                         <!-- End of card -->
                     </div>                                                           
 
-                    <br />
+                    </br>
+                    <table id="product_table"></table>
                     <h5>Sesi terakhir login: {{ last_login }}</h5>
                     <div class="d-flex justify-content-between">
                         <a href="{% url 'main:create_product' %}">
@@ -89,13 +85,116 @@
                         <a href="{% url 'main:logout' %}">
                             <button class="btn btn-danger">Logout</button>
                         </a>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product by AJAX</button>
                     </div>
                 </div>
             </div>
         </div>
+        <div id="kontol"></div>
         <div style="text-align: right;">
             <p><strong>Name:</strong> {{ name }} &nbsp;&nbsp;&nbsp;&nbsp; <strong>Class:</strong> {{ class }}</p>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Product</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form" onsubmit="return false;">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name"></input>
+                    </div>
+                    <div class="mb-3" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                        <div class="mb-3">
+                            <label for="amount" class="col-form-label">Amount:</label>
+                            <input type="number" class="form-control" id="amount" name="amount"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="col-form-label">Price:</label>
+                            <input type="number" class="form-control" id="price" name="price"></input>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="col-form-label">Description:</label>
+                        <textarea class="form-control" id="description" name="description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Product</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addProduct() {
+        fetch("{% url 'main:add_product_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#form'))
+        }).then(refreshProducts)
+
+        document.getElementById("form").reset()
+        return false
+    }
+
+    document.getElementById("button_add").onclick = addProduct
+
+    async function getProducts() {
+        return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
+    }
+    
+    async function refreshProducts() {
+        document.getElementById("product_table").innerHTML = ""
+        const products = await getProducts()
+        let htmlString = `<tr>
+            <th>User</th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Date Added</th>
+        </tr>`
+        products.forEach((item) => {
+            htmlString += `\n<tr>
+            <td>${item.fields.user}</td>
+            <td>${item.fields.name}</td>
+            <td>${item.fields.amount}</td>
+            <td>${item.fields.description}</td>
+            <td>${item.fields.price}</td>
+            <td>${item.fields.date_added}</td>
+        </tr>` 
+        })
+        
+        document.getElementById("product_table").innerHTML = htmlString
+
+        // document.getElementById("kontol").innerHTML = ""
+        // htmlString =
+        // ` 
+        // <div class="card">
+        //     <div class="card-header">
+        //         <h5 class="card-title">Card Title</h5>
+        //     </div>
+        //     <div class="card-body">
+        //         <p class="card-text">This is a basic Bootstrap card. You can customize its content and appearance as needed.</p>
+        //     </div>
+        //     <div class="card-footer">
+        //         <a href="#" class="btn btn-primary">Learn More</a>
+        //     </div>
+        // </div>
+        // `
+        
+        // document.getElementById("kontol").innerHTML = htmlString
+    }
+
+    refreshProducts()
+</script>
 {% endblock content %}

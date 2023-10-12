@@ -1268,6 +1268,7 @@ Kode ini menggunakan elemen "card" untuk menampilkan informasi produk, yang lebi
 Tombol-tombol ini juga menggunakan kelas Bootstrap "btn" untuk tampilan yang seragam. Tombol "Add New Product" memiliki warna biru (btn-primary), sementara tombol "Logout" memiliki warna merah (btn-danger).
 
 #### Hasil Akhir
+```
 {% extends 'base.html' %}
 
 {% block content %}
@@ -1369,3 +1370,183 @@ Tombol-tombol ini juga menggunakan kelas Bootstrap "btn" untuk tampilan yang ser
     </div>
 </div>
 {% endblock content %}
+```
+
+# Tugas 6
+## *Asynchronous Programming* VS *Synchronous Programming*.
+### *Synchronous Programming*
+*Synchronous programming* mengikuti urutan eksekusi yang linear, di mana **satu perintah dieksekusi setelah yang sebelumnya selesai.** Ketika ada tugas yang memerlukan waktu, seperti mengambil data dari jaringan atau membaca data dari file, program akan berhenti atau terblokir (blocking) sampai tugas tersebut selesai. Ini bisa mengakibatkan **program menjadi tidak responsif jika ada tugas yang memakan waktu yang lama**, karena program akan terus menunggu sampai tugas tersebut selesai sebelum melanjutkan eksekusi. Contoh,
+
+```
+from django.shortcuts import render
+import requests
+
+def get_weather(city):
+    # Fungsi ini akan mengambil data cuaca dari API secara synchronous
+    response = requests.get(f"https://api.example.com/weather/{city}")
+    data = response.json()
+    return data
+
+def weather(request, city):
+    weather_data = get_weather(city)
+    return render(request, 'weather.html', {'data': weather_data})
+```
+Dalam contoh ini, kita menggunakan modul requests untuk membuat permintaan HTTP secara *synchronous* dalam fungsi `get_weather`. Ketika pengguna mengakses URL yang sesuai, tampilan weather akan memanggil fungsi `get_weather` dan **menunggu respons dari API sebelum merender tampilan HTML.**
+
+### *Asynchronous Programming*
+*Asynchronous programming* memungkinkan program untuk **menjalankan tugas-tugas yang memerlukan waktu tanpa menghentikan eksekusi program utama.** Ketika ada tugas yang memerlukan waktu, program tidak akan berhenti atau terblokir. Sebaliknya, program akan melanjutkan eksekusi perintah-perintah selanjutnya dan mungkin akan kembali ke tugas tersebut ketika tugas tersebut telah selesai. Ini memungkinkan program untuk **tetap responsif** dan dapat mengatasi banyak tugas yang berjalan secara bersamaan tanpa menghentikan program utama. Contoh,
+
+```
+from django.shortcuts import render
+
+def weather(request):
+    return render(request, 'weather_ajax.html')
+```
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Weather Information (Asynchronous)</h1>
+    <div id="weather-info"></div>
+
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: '/api/weather/<city>',
+                method: 'GET',
+                success: function(data) {
+                    // Menampilkan hasil cuaca yang diterima dari API
+                    $('#weather-info').html(data);
+                },
+                error: function() {
+                    $('#weather-info').html('Gagal mengambil data cuaca.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+```
+Dalam contoh ini, digunakan jQuery untuk membuat permintaan AJAX ke endpoint `/api/weather/<city>`. Hasil cuaca akan diterima secara *asynchronous* dan **ditampilkan di halaman tanpa menghentikan eksekusi utama.**
+
+## Paradigma *Event-Driven Programming* dan Contoh pada Tugas Ini (TODO)
+Paradigma *event-driven programming* adalah suatu pendekatan dalam pemrograman di mana aplikasi atau sistem **merespons peristiwa (events) yang terjadi secara asynchronous atau tidak terduga**. Peristiwa ini dapat berasal dari berbagai sumber, seperti tindakan pengguna, data yang masuk, timer, atau komunikasi dengan sumber eksternal seperti server. Ketika suatu peristiwa terjadi, aplikasi akan menjalankan kode atau fungsi yang telah ditentukan sebelumnya untuk menangani peristiwa tersebut.
+
+Penerapan paradigma event-driven programming memungkinkan **pembuatan aplikasi yang responsif dan interaktif**, karena aplikasi dapat merespons peristiwa secara real-time tanpa harus menunggu tindakan pengguna selama proses eksekusi. Contoh-contoh penerapannya berupa event listener, callback function, promises, async/await, observer pattern.
+
+(TODO CONTOH PADA TUGAS INI)
+
+## *Asynchronous Programming* pada AJAX
+*Asynchronous programming* pada AJAX bekerja dengan cara yang memungkinkan kode JavaScript untuk melakukan permintaan HTTP ke server atau berinteraksi dengan sumber daya eksternal lainnya tanpa menghentikan eksekusi program utama. Berikut adalah cara kerja asynchronous programming pada AJAX:
+
+1. Membuat Objek XMLHttpRequest:
+
+Langkah pertama adalah membuat objek XMLHttpRequest. Ini adalah objek yang memungkinkan untuk melakukan permintaan HTTP ke server secara asynchronous.
+
+2. Menetapkan Callback Function:
+
+Callback ini adalah tempat menangani respons dari server atau menangani kesalahan jika terjadi.
+
+3. Membuka Permintaan
+4. Mengirim Permintaan
+5. Menangani Respons
+6. Kode Berlanjut:
+
+Sementara permintaan AJAX berjalan dan menunggu respons dari server, kode JavaScript Anda dapat melanjutkan eksekusi. Hal ini memungkinkan halaman web tetap responsif dan tidak terblokir selama permintaan sedang berlangsung. Penerapan secara spesifik *Asynchronous Programming* dapat dilakukan pada AJAX dengan pembagian berikut,
+
+### 1. Permintaan (Request) Asynchronous:
+
+Dalam konteks AJAX, **permintaan HTTP (seperti GET, POST, PUT, DELETE) dapat dikonfigurasi untuk berjalan secara asynchronous.** Ini berarti ketika membuat permintaan ke server, kode JavaScript tidak akan menunggu respons dari server sebelum melanjutkan eksekusi berikutnya.
+Permintaan asynchronous memungkinkan antarmuka pengguna (UI) tetap responsif sambil menunggu data dari server. Contoh,
+
+```
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "https://api.example.com/data", true); // Konfigurasi permintaan untuk berjalan secara asynchronous (true)
+xhr.send();
+```
+
+### 2. Event Handling:
+
+Untuk menangani respons dari permintaan AJAX, digunakan event handling. Biasanya, akan **ditetapkan fungsi yang akan dipanggil saat peristiwa tertentu terjadi.** Dua peristiwa utama yang digunakan dalam AJAX adalah `readystatechange` dan `load`.
+* `readystatechange`: Event ini dipicu setiap kali ada perubahan status dalam permintaan AJAX. Statusnya dapat diperiksa (misalnya, status 4 untuk sukses) dan ditangani responsnya sesuai.
+* `load`: Event ini dipicu ketika permintaan AJAX berhasil menyelesaikan operasi. Ini adalah saat yang paling sering digunakan untuk menangani respons dari server.
+
+contoh,
+
+```
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        var responseData = xhr.responseText;
+        // Lakukan sesuatu dengan data yang diterima
+    }
+};
+xhr.open("GET", "data.json", true);
+xhr.send();
+```
+
+### 3. Promises dan Async/Await (Opsi Lebih Lanjut):
+
+Promises menulis kode yang **merespons hasil atau kesalahan dari permintaan AJAX** dengan lebih terstruktur. Contoh,
+
+```
+function fetchDataWithPromise() {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    resolve(response);
+                } else {
+                    reject(new Error("Gagal mengambil data cuaca."));
+                }
+            }
+        };
+
+        xhr.open("GET", "https://api.example.com/weather", true);
+        xhr.send();
+    });
+}
+
+fetchDataWithPromise()
+    .then(function(data) {
+        console.log("Data cuaca: " + data.weather);
+    })
+    .catch(function(error) {
+        console.error("Terjadi kesalahan: " + error.message);
+    });
+```
+
+Async/Await **menulis kode asinkron dengan cara yang mirip dengan kode synchronous**, menjadikannya lebih mudah dipahami. Contoh,
+
+```
+async function fetchDataWithAsyncAwait() {
+    try {
+        var response = await fetch("https://api.example.com/weather");
+        var data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error("Gagal mengambil data cuaca.");
+    }
+}
+
+(async function() {
+    try {
+        var data = await fetchDataWithAsyncAwait();
+        console.log("Data cuaca: " + data.weather);
+    } catch (error) {
+        console.error("Terjadi kesalahan: " + error.message);
+    }
+})();
+```
+
+Kedua contoh di atas melakukan permintaan asinkron untuk mengambil data cuaca dari server menggunakan AJAX. Yang pertama menggunakan Promises dengan **.then() dan .catch()**, sedangkan yang kedua menggunakan **Async/Await**. Dalam kedua contoh tersebut, kita **mengelola hasil respons atau kesalahan dari permintaan dengan lebih terstruktur**.
+
+## Fetch API vs *library* jQuery dalam Penerapan AJAX
+
+## *Step-by-step* Pengerjaan Tugas
