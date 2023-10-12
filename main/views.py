@@ -99,6 +99,7 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
+@csrf_exempt
 def decrement_amount(request, id):
     data = get_object_or_404(Product, pk=id)
     if data.amount > 0:
@@ -106,12 +107,14 @@ def decrement_amount(request, id):
         data.save()
     return HttpResponseRedirect(reverse('main:show_main'))
 
+@csrf_exempt
 def increment_amount(request, id):
     data = get_object_or_404(Product, pk=id)
     data.amount += 1
     data.save()
     return HttpResponseRedirect(reverse('main:show_main'))
 
+@csrf_exempt
 def delete_product(request, id):
     data = get_object_or_404(Product, pk=id)
     if request.method == 'POST':
@@ -123,15 +126,17 @@ def get_product_json(request):
     product_item = Product.objects.filter(user=user)
     return HttpResponse(serializers.serialize('json', product_item))
 
-def delete_product_ajax(request, id):
-    if request.method == 'POST':
-        try:
-            product = get_object_or_404(Product, pk=id)
-            product.delete()
-            return JsonResponse({'message': 'Product deleted successfully'})
-        except Exception as e:
-            return JsonResponse({'message': 'Failed to delete product', 'error': str(e)})
-    return JsonResponse({'message': 'Invalid request'})
+def get_balance(request):
+    user = request.user
+    products = Product.objects.filter(user=user)
+    balance = products.aggregate(balance=Sum(F('amount') * F('price')))['balance']
+    return HttpResponse(balance)
+
+def get_product_count(request):
+    user = request.user
+    products = Product.objects.filter(user=user)
+    product_count = products.count()
+    return HttpResponse(product_count)
 
 @csrf_exempt
 def add_product_ajax(request):

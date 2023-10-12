@@ -1373,7 +1373,7 @@ Tombol-tombol ini juga menggunakan kelas Bootstrap "btn" untuk tampilan yang ser
 ```
 
 # Tugas 6
-## *Asynchronous Programming* VS *Synchronous Programming*.
+## *Asynchronous Programming* VS *Synchronous Programming*
 ### *Synchronous Programming*
 *Synchronous programming* mengikuti urutan eksekusi yang linear, di mana **satu perintah dieksekusi setelah yang sebelumnya selesai.** Ketika ada tugas yang memerlukan waktu, seperti mengambil data dari jaringan atau membaca data dari file, program akan berhenti atau terblokir (blocking) sampai tugas tersebut selesai. Ini bisa mengakibatkan **program menjadi tidak responsif jika ada tugas yang memakan waktu yang lama**, karena program akan terus menunggu sampai tugas tersebut selesai sebelum melanjutkan eksekusi. Contoh,
 
@@ -1431,14 +1431,21 @@ def weather(request):
 </body>
 </html>
 ```
-Dalam contoh ini, digunakan jQuery untuk membuat permintaan AJAX ke endpoint `/api/weather/<city>`. Hasil cuaca akan diterima secara *asynchronous* dan **ditampilkan di halaman tanpa menghentikan eksekusi utama.**
+Dalam contoh ini, digunakan `jQuery` untuk membuat permintaan AJAX ke endpoint `/api/weather/<city>`. Hasil cuaca akan diterima secara *asynchronous* dan **ditampilkan di halaman tanpa menghentikan eksekusi utama.**
 
-## Paradigma *Event-Driven Programming* dan Contoh pada Tugas Ini (TODO)
+## Paradigma *Event-Driven Programming* dan Contoh pada Tugas Ini
 Paradigma *event-driven programming* adalah suatu pendekatan dalam pemrograman di mana aplikasi atau sistem **merespons peristiwa (events) yang terjadi secara asynchronous atau tidak terduga**. Peristiwa ini dapat berasal dari berbagai sumber, seperti tindakan pengguna, data yang masuk, timer, atau komunikasi dengan sumber eksternal seperti server. Ketika suatu peristiwa terjadi, aplikasi akan menjalankan kode atau fungsi yang telah ditentukan sebelumnya untuk menangani peristiwa tersebut.
 
 Penerapan paradigma event-driven programming memungkinkan **pembuatan aplikasi yang responsif dan interaktif**, karena aplikasi dapat merespons peristiwa secara real-time tanpa harus menunggu tindakan pengguna selama proses eksekusi. Contoh-contoh penerapannya berupa event listener, callback function, promises, async/await, observer pattern.
 
-(TODO CONTOH PADA TUGAS INI)
+Pada tugas ini diaplikasikan sistem *event-driven programming*, contohnya pada kode berikut,
+```
+document.getElementById("button_add").onclick = addProduct
+```
+Kode berikut akan melakukan selector pada *id* `button_add` dan memberi keterangan ketika ditekan akan memanggil fungsi addProduct. Contoh yang serupa juga bisa dilihat pada kode berikut,
+```
+<button type="submit" class="btn btn-danger btn-sm" onclick="deleteProduct(${item.pk})">Delete</button>
+```
 
 ## *Asynchronous Programming* pada AJAX
 *Asynchronous programming* pada AJAX bekerja dengan cara yang memungkinkan kode JavaScript untuk melakukan permintaan HTTP ke server atau berinteraksi dengan sumber daya eksternal lainnya tanpa menghentikan eksekusi program utama. Berikut adalah cara kerja asynchronous programming pada AJAX:
@@ -1547,6 +1554,274 @@ async function fetchDataWithAsyncAwait() {
 
 Kedua contoh di atas melakukan permintaan asinkron untuk mengambil data cuaca dari server menggunakan AJAX. Yang pertama menggunakan Promises dengan **.then() dan .catch()**, sedangkan yang kedua menggunakan **Async/Await**. Dalam kedua contoh tersebut, kita **mengelola hasil respons atau kesalahan dari permintaan dengan lebih terstruktur**.
 
-## Fetch API vs *library* jQuery dalam Penerapan AJAX
+## `Fetch API` vs `*library* jQuery` dalam Penerapan AJAX
+Penerapan AJAX dapat dilakukan menggunakan `Fetch API` atau `library jQuery`, dan pilihan antara keduanya bergantung pada kebutuhan proyek dan preferensi pengembang. Berikut perbandingan antara keduanya:
+
+### `Fetch API`:
+
+1. **(Native dan Modern)**
+    `Fetch API` adalah bagian dari JavaScript modern dan sudah ada dalam peramban terbaru. Ini berarti Anda tidak perlu mengunduh atau menginstal perpustakaan tambahan.
+
+2. **(Promise-based)** 
+    `Fetch API` didasarkan pada promise, yang memungkinkan Anda untuk mengelola permintaan HTTP dan responsnya dengan cara yang lebih bersih dan mudah dibaca. Anda dapat menggunakan async/await untuk mengelola permintaan dengan lebih baik.
+
+3. **(Lebih Ringan)** 
+    `Fetch API` lebih ringan daripada `jQuery` karena fokus pada AJAX dan operasi jaringan. Ini membuatnya lebih efisien jika Anda hanya membutuhkan fitur AJAX.
+
+4. **(Lebih Modern)** 
+    `Fetch API` lebih modern dan konsisten dengan pengembangan web saat ini. Ini memungkinkan Anda untuk berintegrasi dengan baik dengan konsep-konsep terbaru dalam JavaScript dan pengembangan web.
+
+### `jQuery`:
+
+1. **(Kompatibilitas Luas)** 
+    `jQuery` adalah perpustakaan yang sudah ada sejak lama dan kompatibel dengan banyak peramban, termasuk peramban lama. Jadi, jika Anda perlu mendukung peramban lama, `jQuery` mungkin menjadi pilihan yang baik.
+
+2. **(Sintaksis yang Sederhana)** 
+    `jQuery` memiliki sintaksis yang lebih sederhana dan mudah dipahami untuk permintaan AJAX. Ini membuatnya lebih cepat untuk diadopsi oleh pengembang yang belum terbiasa dengan promise dan async/await.
+
+3. **(Plugin-Plugin Tambahan)**
+    jQuery memiliki banyak plugin yang memperluas fungsionalitasnya. Ini termasuk plugin-plugin yang berguna untuk validasi formulir, efek animasi, dan tugas-tugas umum lainnya.
+
+### Pilihan Terbaik:
+
+Semua bergantung pada proyek yang akan dibangun, namun secara umum jika ingin menggunakan teknologi yang lebih modern dan ukuran proyek kecil ke menengah maka `Fetch API` lebih direkomendasikan. Sedangkan pada proyek dengan kompatibilitas pada peramban lama dan ukuran proyek yang besar maka `jQuery` lebih direkomendasikan.
 
 ## *Step-by-step* Pengerjaan Tugas
+### Mengambil task menggunakan AJAX GET
+Untuk melakukan get menggunakan AJAX maka perlu ditambahkan fungsi `get_product_json` pada `views.py`
+```
+def get_product_json(request):
+    user = request.user
+    product_item = Product.objects.filter(user=user) #Mengambil object sesuai user yang login
+    return HttpResponse(serializers.serialize('json', product_item))
+```
+fungsi kemudian di-import dan dipetakan pada `urls.py`,
+```
+path('get-product/', get_product_json, name='get_product_json'),
+```
+lalu aplikasikan pada `script` di `main.html` sehingga dapat dipanggil sesuai kebutuhan,
+```
+async function getProducts() {
+    return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
+}
+```
+### Mengubah kode cards data item agar dapat mendukung AJAX GET
+Pertama-tama ubah container kartu yang akan didisplay dari menggunakan loop, cukup tambahkan id `display_card` untuk selector nantinya,
+```
+<div id="display_card"></div>
+```
+buat fungsi dapat melakukan refresh secara asinkronus pada `script` di `main.html`, 
+1. Untuk mengubah nilai pada `display_card` lakukan selector dengan,
+```
+document.getElementById("display_card").innerHTML = ""
+```
+2. Mengambil product dengan,
+```
+const products = await getProducts() #Mengambil product
+```
+3. Mengkonstruksi card yang akan di-display kembali dengan melakukan loop pada kumpulan product yang diambil, konstruksi awal dan akhir dengan kode,
+```
+let htmlString = `<div class = row>`
+...
+htmlString += `</div>`
+```
+konstuksi tiap productnya dalam loop,
+```
+products.forEach((item) => {
+    htmlString +=
+    ` 
+    <div class="col-md-4 product-card">
+        <div class="card last-card">
+            <div class="card-body">
+                <h5 class="card-title">${item.fields.name}</h5>
+                <p class="card-text">
+                    Amount: ${item.fields.amount}<br>
+                    Description: ${item.fields.description}<br>
+                    Price: ${item.fields.price}<br>
+                    Date Added: ${item.fields.date_added}
+                </p>
+            </div>
+            <div class="card-footer">
+                <div class="button-group">
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <a href="decrement_amount/${item.pk}/">
+                            <button type="submit" class="btn btn-primary btn-sm" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">-</button>
+                        </a>
+                        <a href="increment_amount/${item.pk}/">
+                            <button type="submit" class="btn btn-primary btn-sm" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">+</button>
+                        </a>
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="deleteProduct(${item.pk})">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `
+})
+```
+4. Sembari itu bisa diubah data-data yang bergantung lainnya, seperti `balance` dan `product_counts`
+
+Hasil akhirnya berupa berikut,
+
+```
+async function getProducts() {
+    return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
+}
+async function getProductCount() {
+    return fetch("{% url 'main:get_product_count' %}").then((res) => res.json())
+}
+async function getBalance() {
+    return fetch("{% url 'main:get_balance' %}").then((res) => res.json())
+}
+
+async function refreshProducts() {
+        document.getElementById("display_card").innerHTML = "" #Mengosongkan display card
+        document.getElementById("balance").innerHTML = "" #Mengupdate nilai yang berhubungan tiap kali ada pen
+        document.getElementById("product_count").innerHTML = ""
+        
+        const products = await getProducts() #Mengambil product
+        const balance = await getBalance()
+        const product_count = await getProductCount()
+
+        document.getElementById("balance").innerHTML = `<strong>Balance: </strong>${balance}` #Menampilkan balance yang sudah berubah
+        document.getElementById("product_count").innerHTML = `Kamu menyimpan ${product_count} item pada inventory` #Menampilkan jumlah product yang sudah berubah
+
+        let htmlString = `<div class = row>`
+        products.forEach((item) => {
+            htmlString +=
+            ` 
+            <div class="col-md-4 product-card">
+                <div class="card last-card">
+                    <div class="card-body">
+                        <h5 class="card-title">${item.fields.name}</h5>
+                        <p class="card-text">
+                            Amount: ${item.fields.amount}<br>
+                            Description: ${item.fields.description}<br>
+                            Price: ${item.fields.price}<br>
+                            Date Added: ${item.fields.date_added}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="button-group">
+                            <div style="display: flex; flex-wrap: wrap;">
+                                <a href="decrement_amount/${item.pk}/">
+                                    <button type="submit" class="btn btn-primary btn-sm" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">-</button>
+                                </a>
+                                <a href="increment_amount/${item.pk}/">
+                                    <button type="submit" class="btn btn-primary btn-sm" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">+</button>
+                                </a>
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="deleteProduct(${item.pk})">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `
+        })
+        htmlString += `</div>`
+        document.getElementById("display_card").innerHTML = htmlString
+    }
+```
+
+### Membuat sebuah tombol yang membuka sebuah modal dengan form untuk menambahkan item.
+Pertama-tama agar bekerja perlu ditambahkan fungsi `add_product_ajax` pada `views.py`, sebelumnya jangan lupa untuk mengimport modul yang diperlukan seperti `csrf_exempt`,
+```
+@csrf_exempt #Menggantikan cek csrf sebelumnya
+def add_product_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get("name")
+        amount = request.POST.get("amount")
+        description = request.POST.get("description")
+        price = request.POST.get("price")
+        user = request.user
+
+        new_product = Product(name=name, amount=amount, description=description, price=price, user=user)
+        new_product.save()
+
+        return HttpResponse(b"CREATED", status=201)
+
+    return HttpResponseNotFound()
+```
+kemudian petakan pada import dan petakan pada `urls.py`,
+```
+path('create-product-ajax/', add_product_ajax, name='add_product_ajax'),
+```
+lalu definisikan fungsi `addProduct` pada `<script>`,
+```
+function addProduct() {
+    fetch("{% url 'main:add_product_ajax' %}", {
+        method: "POST",
+        body: new FormData(document.querySelector('#form')) #Mengambil data yang baru
+    }).then(refreshProducts) #Panggil fungsi refresh
+
+    document.getElementById("form").reset()
+    return false
+}
+```
+lalu membuat display modal baru yang nantinya akan ditampilkan pada `main.html`,
+```
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Product</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form" onsubmit="return false;">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name"></input>
+                    </div>
+                    <div class="mb-3" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                        <div class="mb-3">
+                            <label for="amount" class="col-form-label">Amount:</label>
+                            <input type="number" class="form-control" id="amount" name="amount"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="col-form-label">Price:</label>
+                            <input type="number" class="form-control" id="price" name="price"></input>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="col-form-label">Description:</label>
+                        <textarea class="form-control" id="description" name="description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Product</button>
+            </div>
+        </div>
+    </div>
+</div>
+```
+kemudian tambahkan tombol untuk menambahkan item tersebut dan tambahkan event-listener ketika ditekan,
+```
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product by AJAX</button>
+...
+document.getElementById("button_add").onclick = addProduct
+```
+
+### Melakukan perintah collectstatic.
+
+Perintah ini bertujuan untuk mengumpulkan file static dari setiap aplikasi kamu ke dalam suatu folder yang dapat dengan mudah disajikan pada produksi.
+
+### Bonus
+Untuk melakukan penghapusan menggunakan AJAX maka perlu untuk menambahkan `csrf_exempt` pada `delete_product` di `views.py`. Kemudian buat fungsi `deleteProduct` pada `main.html`,
+```
+function deleteProduct(productId) {
+    fetch(`delete_product/${productId}/`, {
+        method: "POST",
+    }).then(refreshProducts)
+    .catch(error => {
+        alert('An error occurred during the request');
+    });
+}
+```
+dan tambahkan event listener pada tombol delete,
+```
+<button type="submit" class="btn btn-danger btn-sm" onclick="deleteProduct(${item.pk})">Delete</button>
+```

@@ -8,10 +8,10 @@
                 <div class="card-body">
                     <h1 class="card-title text-center">Albion Storage</h1>
                     <h4><strong>AccountID: </strong>{{ accountID }}</h4>
-                    <p><strong>Balance: </strong>{{ balance }}</p>
+                    <p id="balance"><strong>Balance: </strong>{{ balance }}</p>
                     <h4><strong>Inventory</strong></h4>
                     
-                    <p>Kamu menyimpan {{ product_count }} item pada inventory</p>  <!-- Display the product count -->
+                    <p id="product_count">Kamu menyimpan {{ product_count }} item pada inventory</p>  <!-- Display the product count -->
 
                     <style>
                         /* Custom CSS for margin and layout */
@@ -25,7 +25,7 @@
                             margin-bottom: 20px;
                         }
 
-                        .last-card {
+                        .product-card:last-child .last-card {
                             border: 3px solid rgba(0, 0, 255, 0.7);
                         }
                     </style>
@@ -79,13 +79,13 @@
                     </br>
                     <h5>Sesi terakhir login: {{ last_login }}</h5>
                     <div class="d-flex justify-content-between">
-                        <a href="{% url 'main:create_product' %}">
+                        <!-- <a href="{% url 'main:create_product' %}">
                             <button class="btn btn-primary">Add New Product</button>
-                        </a>
+                        </a> -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product by AJAX</button>
                         <a href="{% url 'main:logout' %}">
                             <button class="btn btn-danger">Logout</button>
                         </a>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product by AJAX</button>
                     </div>
                 </div>
             </div>
@@ -135,68 +135,13 @@
 </div>
 
 <script>
-    function decrementProduct(productId) {
-        fetch(`/decrement_amount/${productId}/`, {
-            method: "POST",
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken'), // Include your CSRF token
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Handle response as needed
-        })
-        .catch(error => {
-            alert('An error occurred during the request');
-        });
-    }
-
-    function incrementProduct(productId) {
-        fetch(`/increment_amount/${productId}/`, {
-            method: "POST",
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken'), // Include your CSRF token
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Handle response as needed
-        })
-        .catch(error => {
-            alert('An error occurred during the request');
-        });
-    }
-
     function deleteProduct(productId) {
-        fetch(`/delete_product_ajax/${productId}/`, {
+        fetch(`delete_product/${productId}/`, {
             method: "POST",
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken'), // Include your CSRF token
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === 'Product deleted successfully') {
-                // Product deleted, update the UI as needed
-                // For example, remove the corresponding product card
-                const productCard = document.getElementById(`product-card-${productId}`);
-                if (productCard) {
-                    productCard.remove();
-                }
-            } else {
-                alert('Product deletion failed');
-            }
-        })
+        }).then(refreshProducts)
         .catch(error => {
             alert('An error occurred during the request');
         });
-    }
-
-    // Function to get the CSRF token from cookies
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
     function addProduct() {
@@ -214,39 +159,31 @@
     async function getProducts() {
         return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
     }
+    async function getProductCount() {
+        return fetch("{% url 'main:get_product_count' %}").then((res) => res.json())
+    }
+    async function getBalance() {
+        return fetch("{% url 'main:get_balance' %}").then((res) => res.json())
+    }
     
     async function refreshProducts() {
-        // document.getElementById("product_table").innerHTML = ""
-        // const products = await getProducts()
-        // let htmlString = `<tr>
-        //     <th>User</th>
-        //     <th>Name</th>
-        //     <th>Amount</th>
-        //     <th>Description</th>
-        //     <th>Price</th>
-        //     <th>Date Added</th>
-        // </tr>`
-        // products.forEach((item) => {
-        //     htmlString += `\n<tr>
-        //     <td>${item.fields.user}</td>
-        //     <td>${item.fields.name}</td>
-        //     <td>${item.fields.amount}</td>
-        //     <td>${item.fields.description}</td>
-        //     <td>${item.fields.price}</td>
-        //     <td>${item.fields.date_added}</td>
-        // </tr>` 
-        // })
-        
-        // document.getElementById("product_table").innerHTML = htmlString
-
         document.getElementById("display_card").innerHTML = ""
+        document.getElementById("balance").innerHTML = ""
+        document.getElementById("product_count").innerHTML = ""
+        
         const products = await getProducts()
+        const balance = await getBalance()
+        const product_count = await getProductCount()
+
+        document.getElementById("balance").innerHTML = `<strong>Balance: </strong>${balance}`
+        document.getElementById("product_count").innerHTML = `Kamu menyimpan ${product_count} item pada inventory`
+
         let htmlString = `<div class = row>`
         products.forEach((item) => {
             htmlString +=
             ` 
             <div class="col-md-4 product-card">
-                <div class="card{%if forloop.last%} last-card{%endif%}">
+                <div class="card last-card">
                     <div class="card-body">
                         <h5 class="card-title">${item.fields.name}</h5>
                         <p class="card-text">
@@ -259,10 +196,14 @@
                     <div class="card-footer">
                         <div class="button-group">
                             <div style="display: flex; flex-wrap: wrap;">
-                                <button type="submit" class="btn btn-primary btn-sm" style="border-top-right-radius: 0;border-bottom-right-radius: 0;" onclick="decrementProduct({{ product.id }})">-</button>
-                                <button type="submit" class="btn btn-primary btn-sm" style="border-top-left-radius: 0;border-bottom-left-radius: 0;" onclick="incrementProduct({{ product.id }})">+</button>
+                                <a href="decrement_amount/${item.pk}/">
+                                    <button type="submit" class="btn btn-primary btn-sm" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">-</button>
+                                </a>
+                                <a href="increment_amount/${item.pk}/">
+                                    <button type="submit" class="btn btn-primary btn-sm" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">+</button>
+                                </a>
                             </div>
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="deleteProduct({{ product.id }})">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="deleteProduct(${item.pk})">Delete</button>
                         </div>
                     </div>
                 </div>
