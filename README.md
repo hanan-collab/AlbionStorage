@@ -1807,7 +1807,7 @@ document.getElementById("button_add").onclick = addProduct
 
 ### Melakukan perintah collectstatic.
 
-Perintah ini bertujuan untuk mengumpulkan file static dari setiap aplikasi kamu ke dalam suatu folder yang dapat dengan mudah disajikan pada produksi.
+Menjalankan kode `python manage.py collectstatic` kemudian lakukan deploy
 
 ### Bonus
 Untuk melakukan penghapusan menggunakan AJAX maka perlu untuk menambahkan `csrf_exempt` pada `delete_product` di `views.py`. Kemudian buat fungsi `deleteProduct` pada `main.html`,
