@@ -1,5 +1,5 @@
 # Albion Storage
-[Application Link](https://albionstorage.adaptable.app/main/)
+[Application Link](http://hanan-adipratama-tugas.pbp.cs.ui.ac.id)
 
 # TUGAS 2
 ## _Step-by-step_ pengerjaan tugas
